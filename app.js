@@ -12,12 +12,12 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 app.get('/', (req, res) => {
-    res.send('Servidor Node.js funcionando correctamente');
+    res.send('Servidor Node.js working correctly');
 });
 
 app.post('/reconocimiento_facial', (req, res) => {
     console.log('Recibida solicitud POST /reconocimiento_facial');
-    console.log('Llamando al script de Python...');
+    console.log('Calling Python Script...');
 
     const imagenB64 = req.body.imagen.split(',')[1];
     const imagenBuffer = Buffer.from(imagenB64, 'base64');
@@ -37,15 +37,15 @@ app.post('/reconocimiento_facial', (req, res) => {
     });
 
     pythonProcess.stderr.on('data', (data) => {
-        console.error(`Error en el script de Python: ${data}`);
+        console.error(`Error in the Python Script: ${data}`);
         errorMessage += data.toString();
     });
 
     pythonProcess.on('close', (code) => {
-        console.log(`Python script terminado con código ${code}`);
+        console.log(`Python script finished with code: ${code}`);
         fs.unlinkSync(tempFilePath); // Eliminar el archivo temporal
         if (errorMessage) {
-            res.status(500).send("Error en el script de Python: " + errorMessage);
+            res.status(500).send("Python Script Error: " + errorMessage);
         }
     });
 });
