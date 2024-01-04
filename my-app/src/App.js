@@ -21,7 +21,7 @@ const App = () => {
         })
         .catch(error => {
             console.error('Error:', error);
-            setMessage('Error al realizar la validación');
+            setMessage('Error in validation process');
         });
     };
 
